@@ -53,7 +53,7 @@ public class QuizData {
     // Retrieve all job leads and return them as a List.
     // This is how we restore persistent objects stored as rows in the job leads table in the database.
     // For each retrieved row, we create a new JobLead (Java POJO object) instance and add it to the list.
-    public List<QuizLead> retrieveAllJobLeads() {
+    public List<QuizLead> retrieveAllQuizLeads() {
         ArrayList<QuizLead> quizLeads = new ArrayList<>();
         Cursor cursor = null;
 
@@ -100,7 +100,7 @@ public class QuizData {
     }
 
     // Store a new job lead in the database.
-    public QuizLead storeJobLead( QuizLead quizLead ) {
+    public QuizLead storeQuizLead( QuizLead quizLead ) {
 
         // Prepare the values for all of the necessary columns in the table
         // and set their values to the variables of the JobLead argument.

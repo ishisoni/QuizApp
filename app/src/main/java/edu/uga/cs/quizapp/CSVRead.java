@@ -27,7 +27,7 @@ import java.io.InputStreamReader;
  *     implementation 'com.opencsv:opencsv:4.2'
  * to provide the necessary CSV library.
  */
-public class CSVReader extends AppCompatActivity {
+public class CSVRead extends AppCompatActivity {
 
     final String TAG = "CSVReading";
 
@@ -38,7 +38,7 @@ public class CSVReader extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        rankingButton = (Button) findViewById( R.id.button );
+        /*rankingButton = (Button) findViewById( R.id.button );*/
         rankingButton.setOnClickListener(new ButtonClickListener());
     }
 
@@ -46,7 +46,7 @@ public class CSVReader extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             try {
-                TableLayout tableLayout = (TableLayout) findViewById(R.id.table_main);
+                /*TableLayout tableLayout = (TableLayout) findViewById(R.id.table_main);*/
                 Resources res = getResources();
                 InputStream in_continent = res.openRawResource( R.raw.country_continent );
 
@@ -60,9 +60,12 @@ public class CSVReader extends AppCompatActivity {
                 layoutParams.setMargins(20, 0, 20, 0);
 
                 // read the CSV data
-                CSVReader reader = new CSVReader( new InputStreamReader( in_continent ) );
+                CSVReader readerContinent = new CSVReader( new InputStreamReader( in_continent ) );
+                CSVReader readerNeighbor = new CSVReader( new InputStreamReader( in_neighbors ) );
                 String [] nextLine;
-                while( ( nextLine = reader.readNext() ) != null ) {
+
+                //continent reader
+                while( ( nextLine = readerContinent.readNext() ) != null ) {
 
                     // nextLine[] is an array of values from the line
 
@@ -80,7 +83,29 @@ public class CSVReader extends AppCompatActivity {
                     }
 
                     // add the next row to the table layout
-                    tableLayout.addView( tableRow );
+                    /*tableLayout.addView( tableRow );*/
+                }
+
+                //neighbor reader
+                while( ( nextLine = readerNeighbor.readNext() ) != null ) {
+
+                    // nextLine[] is an array of values from the line
+
+                    // create the next table row for the layout
+                    TableRow tableRow = new TableRow( getBaseContext() );
+                    for( int i = 0; i < nextLine.length; i++ ) {
+
+                        // create a new TextView and set its text
+                        TextView textView = new TextView( getBaseContext() );
+                        textView.setText( nextLine[i] );
+
+                        // add the new TextView to the table row in the table supplying the
+                        // layout parameters
+                        tableRow.addView( textView, layoutParams );
+                    }
+
+                    // add the next row to the table layout
+                    /*tableLayout.addView( tableRow );*/
                 }
             } catch (Exception e) {
                 Log.e( TAG, e.toString() );
