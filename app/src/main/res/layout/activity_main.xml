@@ -13,8 +13,20 @@
         android:text="Hello World!" />
 
     <Button
+        android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello!" />
+        android:layout_gravity="center|center_vertical"
+        android:layout_marginTop="275dp"
+        android:text="QUIZ" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:foregroundGravity="center"
+        android:gravity="center|center_horizontal"
+        android:text="RESULTS" />
 
 </LinearLayout>
