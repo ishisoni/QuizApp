@@ -2,11 +2,19 @@ package edu.uga.cs.quizapp;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
+import androidx.appcompat.view.menu.MenuView;
 import androidx.fragment.app.Fragment;
+
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,22 +22,74 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class FragmentOne extends Fragment {
+    TextView question;
+    ArrayList<String> country = new ArrayList<String>();
+    ArrayList<String> continent = new ArrayList<String>();
+    ArrayList<Quiz> quizAnswers = new ArrayList<>();
+    ArrayList<String> wrongContinents = new ArrayList<>();
+    Random random = new Random();
+    RadioButton button1, button2, button3;
+
+    RadioGroup group;
 
     public FragmentOne() {
         // Required empty public constructor
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_one, container, false);
+        readQuizData();
+       View view = inflater.inflate(R.layout.fragment_one, container, false);
+        question = (TextView) view.findViewById(R.id.section_label);
+        int randomNumber = random.nextInt(country.size());
+        question.setText(country.get(randomNumber));
+        Quiz quizQuestion = new Quiz();
+        quizQuestion.setCountry(country.get(randomNumber));
+        quizQuestion.setContinent(continent.get(randomNumber));
+        button1 = (RadioButton) view.findViewById(R.id.radioButton1);
+        button2 = (RadioButton) view.findViewById(R.id.radioButton2);
+        button3 = (RadioButton) view.findViewById(R.id.radioButton3);
+        int randomRadio = random.nextInt(2) + 1;
+        wrongContinents.add("Asia");
+        wrongContinents.add("Africa");
+        wrongContinents.add("North America");
+        wrongContinents.add("South America");
+        wrongContinents.add("Europe");
+        wrongContinents.add("Oceania");
+        switch(randomRadio) {
+            case 1: {
+                button1.setText(continent.get(randomNumber));
+                button2.setText("Wrong answer");
+                button3.setText("Wrong asnwer");
+                break;
+            }
+            case 2: {
+                button1.setText("Wrong Answer");
+                button2.setText(continent.get(randomNumber));
+                button3.setText("Wrong answer");
+                break;
+            }
+            case 3: {
+                button1.setText("Wrong Answer");
+                button2.setText("Wrong Answer");
+                button3.setText(continent.get(randomNumber));
+                break;
+            }
+
+        }
+
+        return view;
+
     }
 
     //ArrayList for country and continent in CSV
-    ArrayList<String> country = new ArrayList<String>();
-    ArrayList<String> continent = new ArrayList<String>();
+
 
     private void readQuizData() {
         Resources res = getResources();
@@ -46,7 +106,7 @@ public class FragmentOne extends Fragment {
                 country.add(tokens[0]);
                 continent.add(tokens[1]);
 
-                System.out.println(country.get(0) + continent.get(0));
+                Log.d("Array contents", country.get(0)+continent.get(0));
             }
         }catch(IOException e){
             e.printStackTrace();
@@ -78,6 +138,9 @@ public class FragmentOne extends Fragment {
     // how do we make an array accessible accross fragments--is that a thing
     //---stop here please for god's sakes---
     //after this, work on checking answers and producing results
+
+    //create a Quiz class with three private variables- question(country), response(from radio button), and boolean(isCorrect)
+
 
 
 }
