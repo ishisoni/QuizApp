@@ -19,6 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
+        android:id="@+id/RadioGroup"
         android:layout_width="155dp"
         android:layout_height="109dp"
         android:layout_marginStart="138dp"
