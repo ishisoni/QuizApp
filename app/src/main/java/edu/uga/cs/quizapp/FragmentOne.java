@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import androidx.appcompat.view.menu.MenuView;
 import androidx.fragment.app.Fragment;
@@ -22,12 +24,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 public class FragmentOne extends Fragment {
     TextView question;
-    ArrayList<String> country = new ArrayList<String>();
-    ArrayList<String> continent = new ArrayList<String>();
+    //ArrayList<String> country = new ArrayList<String>();
+    //ArrayList<String> continent = new ArrayList<String>();
+    //HashMap<String, String> countryCon = new HashMap<>();
+    //public HashSet quizQuestions = new HashSet();
     ArrayList<Quiz> quizAnswers = new ArrayList<>();
     ArrayList<String> wrongContinents = new ArrayList<>();
     Random random = new Random();
@@ -44,14 +50,31 @@ public class FragmentOne extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        readQuizData();
+        //readQuizData();
+
        View view = inflater.inflate(R.layout.fragment_one, container, false);
         question = (TextView) view.findViewById(R.id.section_label);
-        int randomNumber = random.nextInt(country.size());
-        question.setText(country.get(randomNumber));
+        List<String> keys = new ArrayList<String>(Quiz.countryCon.keySet());
+
+        String value = "";
+       // String       value     = countryCon.get(randomKey);
+
+        String quizQ = Quiz.quizQuestions.iterator().next().toString();
+        question.setText(quizQ);
+        Quiz.quizQuestions.remove(quizQ);
+       // Iterator<String> i = quizQuestions.iterator();
+       // while (i.hasNext()) {
+            //System.out.println(i.next());
+         //   String next = i.next();
+          //  Log.d("Countries", next);
+       // }
+
+        /*
+        //quizQuestions
+
         Quiz quizQuestion = new Quiz();
-        quizQuestion.setCountry(country.get(randomNumber));
-        quizQuestion.setContinent(continent.get(randomNumber));
+        //quizQuestion.setCountry(country.get(randomNumber));
+        //quizQuestion.setContinent(continent.get(randomNumber));
         button1 = (RadioButton) view.findViewById(R.id.radioButton1);
         button2 = (RadioButton) view.findViewById(R.id.radioButton2);
         button3 = (RadioButton) view.findViewById(R.id.radioButton3);
@@ -64,25 +87,27 @@ public class FragmentOne extends Fragment {
         wrongContinents.add("Oceania");
         switch(randomRadio) {
             case 1: {
-                button1.setText(continent.get(randomNumber));
+               // button1.setText(continent.get(randomNumber));
                 button2.setText("Wrong answer");
                 button3.setText("Wrong asnwer");
                 break;
             }
             case 2: {
                 button1.setText("Wrong Answer");
-                button2.setText(continent.get(randomNumber));
+               // button2.setText(continent.get(randomNumber));
                 button3.setText("Wrong answer");
                 break;
             }
             case 3: {
                 button1.setText("Wrong Answer");
                 button2.setText("Wrong Answer");
-                button3.setText(continent.get(randomNumber));
+              //  button3.setText(continent.get(randomNumber));
                 break;
             }
 
         }
+
+         */
 
         return view;
 
@@ -91,7 +116,7 @@ public class FragmentOne extends Fragment {
     //ArrayList for country and continent in CSV
 
 
-    private void readQuizData() {
+   /* private void readQuizData() {
         Resources res = getResources();
         InputStream in_continent = res.openRawResource( R.raw.country_continent );
         BufferedReader reader = new BufferedReader(
@@ -102,16 +127,22 @@ public class FragmentOne extends Fragment {
         try {
             while ((line = reader.readLine()) != null){
                 String[] tokens = line.split(",");
+                countryCon.put(tokens[0], tokens[1]);
 
-                country.add(tokens[0]);
-                continent.add(tokens[1]);
+                //country.add(tokens[0]);
+                //continent.add(tokens[1]);
 
-                Log.d("Array contents", country.get(0)+continent.get(0));
+                //Log.d("Array contents", country.get(0)+continent.get(0));
             }
         }catch(IOException e){
             e.printStackTrace();
         }
     }
+
+    */
+
+
+
     //Do CSV Reading
 
     //read each line (while loop) and put country and continent in separate arrays
