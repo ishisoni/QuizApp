@@ -28,6 +28,7 @@ public class NewQuizLeadActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
     public static int int_items = 7;
 
     public static final String DEBUG_TAG = "NewQuizLeadActivity";

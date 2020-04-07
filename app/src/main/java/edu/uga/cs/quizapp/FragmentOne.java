@@ -30,13 +30,7 @@ import java.util.Random;
 
 public class FragmentOne extends Fragment {
     TextView question;
-    //ArrayList<String> country = new ArrayList<String>();
-    //ArrayList<String> continent = new ArrayList<String>();
-    //HashMap<String, String> countryCon = new HashMap<>();
-    //public HashSet quizQuestions = new HashSet();
-    ArrayList<Quiz> quizAnswers = new ArrayList<>();
-    ArrayList<String> wrongContinents = new ArrayList<>();
-    Random random = new Random();
+
     RadioButton button1, button2, button3;
 
     RadioGroup group;
@@ -51,17 +45,13 @@ public class FragmentOne extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //readQuizData();
-
+        
        View view = inflater.inflate(R.layout.fragment_one, container, false);
         question = (TextView) view.findViewById(R.id.section_label);
-        List<String> keys = new ArrayList<String>(Quiz.countryCon.keySet());
 
-        String value = "";
-       // String       value     = countryCon.get(randomKey);
 
-        String quizQ = Quiz.quizQuestions.iterator().next().toString();
-        question.setText(quizQ);
-        Quiz.quizQuestions.remove(quizQ);
+
+
        // Iterator<String> i = quizQuestions.iterator();
        // while (i.hasNext()) {
             //System.out.println(i.next());

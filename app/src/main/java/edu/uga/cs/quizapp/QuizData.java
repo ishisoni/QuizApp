@@ -30,6 +30,7 @@ public class QuizData {
             QuizDBHelper.QUIZ_COLUMN_Q5,
             QuizDBHelper.QUIZ_COLUMN_Q6,
             QuizDBHelper.QUIZ_COLUMN_CORRECT,
+
     };
 
     public QuizData( Context context ) {
@@ -77,10 +78,10 @@ public class QuizData {
                     String correct = cursor.getString( cursor.getColumnIndex( QuizDBHelper.QUIZ_COLUMN_CORRECT ) );
 
                     // create a new JobLead object and set its state to the retrieved values
-                    QuizLead   quizLead = new QuizLead( date, q1, q2, q3, q4, q5, q6, correct );
-                    quizLead.setId( id ); // set the id (the primary key) of this object
+                   // QuizLead   quizLead = new QuizLead( date, q1, q2, q3, q4, q5, q6, correct );
+                    //quizLead.setId( id ); // set the id (the primary key) of this object
                     // add it to the list
-                    quizLeads.add( quizLead );
+                    //quizLeads.add( quizLead );
 
                 }
             }
