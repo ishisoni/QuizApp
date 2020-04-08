@@ -17,44 +17,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
     Button quizButton;
     Button resultsButton;
     QuizDBHelper db;
-
-    //moved to database class, NOT needed here
-    /*private static final String[] quizColumns = {
-            QuizDBHelper.QUIZ_COLUMN_ID,
-            QuizDBHelper.QUIZ_COLUMN_DATE,
-            QuizDBHelper.QUIZ_COLUMN_Q1,
-            QuizDBHelper.QUIZ_COLUMN_Q2,
-            QuizDBHelper.QUIZ_COLUMN_Q3,
-            QuizDBHelper.QUIZ_COLUMN_Q4,
-            QuizDBHelper.QUIZ_COLUMN_Q5,
-            QuizDBHelper.QUIZ_COLUMN_Q6,
-            QuizDBHelper.QUIZ_COLUMN_CORRECT,
-            QuizDBHelper.QUIZ_COLUMN_A1,
-            QuizDBHelper.QUIZ_COLUMN_A2,
-            QuizDBHelper.QUIZ_COLUMN_A3,
-            QuizDBHelper.QUIZ_COLUMN_A4,
-            QuizDBHelper.QUIZ_COLUMN_A5,
-            QuizDBHelper.QUIZ_COLUMN_A6,
-            QuizDBHelper.QUIZ_COLUMN_C1,
-            QuizDBHelper.QUIZ_COLUMN_C2,
-            QuizDBHelper.QUIZ_COLUMN_C3,
-            QuizDBHelper.QUIZ_COLUMN_C4,
-            QuizDBHelper.QUIZ_COLUMN_C5,
-            QuizDBHelper.QUIZ_COLUMN_C6,
-
-    };
-    private static final String[] countryColumns = {
-            QuizDBHelper.COUNTRY_COLUMN_ID,
-            QuizDBHelper.COUNTRY_COLUMN,
-            QuizDBHelper.CONTINENT_COLUMN,
-
-    };*/
+    public static String date;
+    public static HashMap<String, String>  hs = new HashMap<String, String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +35,10 @@ public class MainActivity extends AppCompatActivity {
         quizButton = findViewById(R.id.button1);
         Intent intent = new Intent(this, NewQuizLeadActivity.class);
         quizButton.setOnClickListener(e-> {
+            QuizDBHelper.percentage = 0;
+            db.dropDB();
             readQuizData();
+            date = db.createQuestions();
             startActivity(intent);
 
         });
@@ -92,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                // values.put( QuizDBHelper.COUNTRY_COLUMN, tokens[0]);
                // values.put( QuizDBHelper.CONTINENT_COLUMN, tokens[1]);
                 db.insertCountry(tokens[0],tokens[1]);
+                hs.put(tokens[0], tokens[1]);
 
 
                 //country.add(tokens[0]);
