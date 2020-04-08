@@ -27,7 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class FragmentOne extends Fragment {
+public class FragmentThree extends Fragment {
     TextView question;
 
     RadioButton button1, button2, button3;
@@ -36,7 +36,7 @@ public class FragmentOne extends Fragment {
     ArrayList<String> wrongContinents = new ArrayList<String>();
     ArrayList<String> answerChoices = new ArrayList<String>();
 
-    public FragmentOne() {
+    public FragmentThree() {
         // Required empty public constructor
 
 
@@ -66,7 +66,7 @@ public class FragmentOne extends Fragment {
         wrongContinents.add("South America");
         wrongContinents.add("Europe");
         wrongContinents.add("Oceania");
-        String countryName = QuizDBHelper.countries.get(0);
+        String countryName = QuizDBHelper.countries.get(2);
         question.setText(countryName);
         answerChoices.add(MainActivity.hs.get(countryName));
         Random randomGenerator = new Random();

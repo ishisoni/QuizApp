@@ -28,6 +28,7 @@ public class NewQuizLeadActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
     public static int int_items = 7;
 
     public static final String DEBUG_TAG = "NewQuizLeadActivity";
@@ -73,15 +74,15 @@ public class NewQuizLeadActivity extends AppCompatActivity {
                 case 0:
                     return new FragmentOne();
                 case 1:
-                    return new FragmentOne();
+                    return new FragmentTwo();
                 case 2:
-                    return new FragmentOne();
+                    return new FragmentThree();
                 case 3:
-                    return new FragmentOne();
+                    return new FragmentFour();
                 case 4:
-                    return new FragmentOne();
+                    return new FragmentFive();
                 case 5:
-                    return new FragmentOne();
+                    return new FragmentSix();
                 case 6:
                     return new FragmentOne(); // Results
 
