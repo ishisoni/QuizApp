@@ -1,5 +1,6 @@
 package edu.uga.cs.quizapp;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -74,7 +75,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
                     + QUIZ_COLUMN_C4 + " TEXT, "
                     + QUIZ_COLUMN_C5 + " TEXT, "
                     + QUIZ_COLUMN_C6 + " TEXT, "
-                    + QUIZ_COLUMN_CORRECT + " TEXT "
+                    + QUIZ_COLUMN_CORRECT + " INTEGER "
                     + ")";
     public QuizDBHelper(Context context) {
         super( context, DB_NAME, null, DB_VERSION );
@@ -104,5 +105,32 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public long insertCountry(String country, String capital) {
+        //retrieved method from QuizData
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put( QuizDBHelper.COUNTRY_COLUMN, country);
+        values.put( QuizDBHelper.CONTINENT_COLUMN, capital);
 
+        long wasAdded = db.insert(TABLE_COUNTRIES, null, values);
+        return wasAdded;
+    }
+
+    public long insertQuiz() {
+        //TODO method stub
+        //QUIZZES TABLE
+        //quizzes table will only have the following columns: quizID, date, q1-6, and correct # of answers
+        //call create Questions, and return the ID of the row that gets created so we know which row to refer to
+        long sample = 0;
+        //insert the rows into the database like above
+
+        return sample;
+    }
+
+    public void createQuestions() {
+        //TODO method stub
+        //we need to query the database, select 6 countries and apply them to the quizzes table :) this method will be called in another class
+
+
+    }
 }

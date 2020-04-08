@@ -101,6 +101,7 @@ public class QuizData {
     }
 
     // Store a new job lead in the database.
+    //make method in here to insert
     public QuizLead storeQuizLead( QuizLead quizLead ) {
 
         // Prepare the values for all of the necessary columns in the table

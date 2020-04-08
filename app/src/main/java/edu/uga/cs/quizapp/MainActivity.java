@@ -22,10 +22,10 @@ public class MainActivity extends AppCompatActivity {
 
     Button quizButton;
     Button resultsButton;
-    private SQLiteDatabase db;
-    private SQLiteOpenHelper quizDbHelper;
+    QuizDBHelper db;
 
-    private static final String[] quizColumns = {
+    //moved to database class, NOT needed here
+    /*private static final String[] quizColumns = {
             QuizDBHelper.QUIZ_COLUMN_ID,
             QuizDBHelper.QUIZ_COLUMN_DATE,
             QuizDBHelper.QUIZ_COLUMN_Q1,
@@ -54,13 +54,13 @@ public class MainActivity extends AppCompatActivity {
             QuizDBHelper.COUNTRY_COLUMN,
             QuizDBHelper.CONTINENT_COLUMN,
 
-    };
+    };*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        db = new QuizDBHelper(this);
         quizButton = findViewById(R.id.button1);
         Intent intent = new Intent(this, NewQuizLeadActivity.class);
         quizButton.setOnClickListener(e-> {
@@ -74,18 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     // Open the database
-    public void open() {
-        db = quizDbHelper.getWritableDatabase();
-        Log.d("DEBUG", "QuizData: db open" );
-    }
 
-    // Close the database
-    public void close() {
-        if( quizDbHelper != null ) {
-            quizDbHelper.close();
-            Log.d("DEBUG", "QuizData: db closed");
-        }
-    }
 
     private void readQuizData() {
         Resources res = getResources();
@@ -98,45 +87,17 @@ public class MainActivity extends AppCompatActivity {
         try {
             while ((line = reader.readLine()) != null){
                 String[] tokens = line.split(",");
-                ContentValues values = new ContentValues();
-                values.put( QuizDBHelper.COUNTRY_COLUMN, tokens[0]);
-                values.put( QuizDBHelper.CONTINENT_COLUMN, tokens[1]);
-                long id = db.insert(QuizDBHelper.TABLE_COUNTRIES, null, values);
-                Log.d( "ID", " " + id);
+                //this has been moved to QuizDBhelper!
+               // ContentValues values = new ContentValues();
+               // values.put( QuizDBHelper.COUNTRY_COLUMN, tokens[0]);
+               // values.put( QuizDBHelper.CONTINENT_COLUMN, tokens[1]);
+                db.insertCountry(tokens[0],tokens[1]);
+
 
                 //country.add(tokens[0]);
                 //continent.add(tokens[1]);
 
             }
-
-            Cursor cursor = null;
-            try {
-                // Execute the select query and get the Cursor to iterate over the retrieved rows
-                cursor = db.query( QuizDBHelper.TABLE_COUNTRIES, countryColumns,
-                        null, null, null, null, null );
-
-                // collect all job leads into a List
-                if( cursor.getCount() == 0 ) {
-                    Log.d( "NUMRECORDS", "0 records" );
-                }
-                if( cursor.getCount() > 0 ) {
-                    while( cursor.moveToNext() ) {
-                       //donothing
-                    }
-                }
-                Log.d( "NUMRECORDS", "Number of records from DB: " + cursor.getCount() );
-            }
-            catch( Exception e ){
-                Log.d( "EXCEPTION", "Exception caught: " + e );
-            }
-            finally{
-                // we should close the cursor
-                if (cursor != null) {
-                    cursor.close();
-                }
-            }
-
-            //String text = myDatabaseHelper.getYourData(); //this is the method to query
 
 
         }catch(IOException e){
