@@ -84,7 +84,7 @@ public class NewQuizLeadActivity extends AppCompatActivity {
                 case 5:
                     return new FragmentSix();
                 case 6:
-                    return new FragmentOne(); // Results
+                    return new FragmentFinal(); // Results
 
             }
             return null;

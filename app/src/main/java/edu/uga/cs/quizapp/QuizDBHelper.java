@@ -26,7 +26,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
     public static final int DB_VERSION = 2;
     public static QuizDBHelper helperInstance;
     public static ArrayList<String> countries = new ArrayList<String>();
-    public static int percentage;
+
 
     public static final String TABLE_QUIZ = "quiz";
     public static final String QUIZ_COLUMN_ID = "quizId";
@@ -107,7 +107,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL( CREATE_QUIZ);
+       // db.execSQL( CREATE_QUIZ);
         db.execSQL(CREATE_COUNTRIES);
 
 
@@ -135,12 +135,13 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
    public void dropDB() {
        SQLiteDatabase db = this.getWritableDatabase();
-       db.execSQL("drop table if exists " + TABLE_QUIZ);
+      // db.execSQL("drop table if exists " + TABLE_QUIZ);
        db.execSQL("drop table if exists " + TABLE_COUNTRIES);
        onCreate(db);
    }
 
     public String createQuestions() {
+        countries.clear();
         SQLiteDatabase db= this.getWritableDatabase();
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -151,12 +152,13 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         ArrayList<Integer> numbers = new ArrayList<Integer>();
 
         Random randomGenerator = new Random();
-        while (numbers.size() < 7) {
+        while (numbers.size() < 6) {
             int random = randomGenerator .nextInt(195);
             if (!numbers.contains(random)) {
                 numbers.add(random);
             }
         }
+        Log.d("DEBUG", "NUMBER OF RANDOM COUNTRIES:" + numbers.size());
         Cursor cursor = null;
         try {
             // Execute the select query and get the Cursor to iterate over the retrieved rows
@@ -172,6 +174,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
                     String countryName = cursor.getString(cursor.getColumnIndex( QuizDBHelper.COUNTRY_COLUMN) );
                     Log.d( "DEBUG", "Country Name: " + countryName );
                     countries.add(countryName);
+                    Log.d("DEBUG", "NUMBER OF COUNTRIES TO LIST:" + countries.size());
                 }
             }
             Log.d( "DEBUG", "Number of records from DB: " + cursor.getCount() );
@@ -205,20 +208,22 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
     }
 
-    /*public String retrieveQuestion(int questionNumber, String dbdate) {
-        SQLiteDatabase db= this.getWritableDatabase();
-        String countryName = "";
-        Cursor cursor = null;
-        Cursor cursor1 = null;
+    public void insertResults(int finalScore, String dbdate) {
+        SQLiteDatabase db  = this.getWritableDatabase();
+
+        /*Cursor cursor = null;
         try {
             // Execute the select query and get the Cursor to iterate over the retrieved rows
             cursor = db.query( QuizDBHelper.TABLE_QUIZ, allColumnsQuiz,
-                    " quizDate = " + dbdate , null, null, null, null );
+                    "quizDate = " + dbdate, null, null, null, null );
+            // collect all job leads into a List
+
+            //cursor = db.query( QuizDBHelper.TABLE_COUNTRIES, allColumnsCountry,
+            //     "COUNTRY_COLUMN_ID in (" + number, null, null, null, null );
             if( cursor.getCount() > 0 ) {
                 while( cursor.moveToNext() ) {
-                    // get all attribute values of this job lead
-                    countryName = cursor.getString(cursor.getColumnIndex("q"+ questionNumber) );
-                    Log.d( "DEBUG", "Country Name For Quiz: " + countryName );
+                    String quizNumber = cursor.getString(cursor.getColumnIndex( QuizDBHelper.QUIZ_COLUMN_ID));
+
                 }
             }
             Log.d( "DEBUG", "Number of records from DB: " + cursor.getCount() );
@@ -231,7 +236,9 @@ public class QuizDBHelper extends SQLiteOpenHelper {
             if (cursor != null) {
                 cursor.close();
             }
-        }
-        return countryName;
-    }*/
+        }*/
+
+        db.execSQL("UPDATE quiz SET percentageCorrect = '" + finalScore + "' WHERE quizDate = '" + dbdate + "'");
+
+    }
 }

@@ -36,6 +36,8 @@ public class FragmentOne extends Fragment {
     ArrayList<String> wrongContinents = new ArrayList<String>();
     ArrayList<String> answerChoices = new ArrayList<String>();
 
+    String correctAnswer = "";
+
     public FragmentOne() {
         // Required empty public constructor
 
@@ -68,23 +70,61 @@ public class FragmentOne extends Fragment {
         wrongContinents.add("Oceania");
         String countryName = QuizDBHelper.countries.get(0);
         question.setText(countryName);
-        answerChoices.add(MainActivity.hs.get(countryName));
+        correctAnswer = MainActivity.hs.get(countryName);
+        answerChoices.add(correctAnswer);
         Random randomGenerator = new Random();
-        while(answerChoices.size() <=3) {
+        while(answerChoices.size() <3) {
             int random = randomGenerator.nextInt(6);
             if (!answerChoices.contains(wrongContinents.get(random))) {
                 answerChoices.add(wrongContinents.get(random));
             }
         }
+        Log.d("ANSWER CHOICES", " " +answerChoices.toString());
         Collections.shuffle(answerChoices);
         button1.setText(answerChoices.get(0));
         button2.setText(answerChoices.get(1));
         button3.setText(answerChoices.get(2));
 
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (button1.getText().toString().equals(correctAnswer)) {
+                    MainActivity.percentage++;
+                    Log.d("VALUE OF PERCENTAGE", " "+ MainActivity.percentage);
+                }
+            }
+        });
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("CHECKED", " was checked");
+                if (button2.getText().toString().equals(correctAnswer)) {
+                    MainActivity.percentage++;
+                    Log.d("VALUE OF PERCENTAGE", " "+ MainActivity.percentage);
+                }
+
+            }
+        });
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("CHECKED", " was checked");
+                if (button3.getText().toString().equals(correctAnswer)) {
+                    MainActivity.percentage++;
+                    Log.d("VALUE OF PERCENTAGE", " "+ MainActivity.percentage);
+                }
+
+            }
+        });
+
 
         return view;
 
     }
+
+
+
+
 
 }
 

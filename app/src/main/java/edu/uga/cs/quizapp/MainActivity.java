@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     QuizDBHelper db;
     public static String date;
     public static HashMap<String, String>  hs = new HashMap<String, String>();
+    public static int percentage;
+    public static int[] answers = {0, 0, 0, 0, 0, 0};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         quizButton = findViewById(R.id.button1);
         Intent intent = new Intent(this, NewQuizLeadActivity.class);
         quizButton.setOnClickListener(e-> {
-            QuizDBHelper.percentage = 0;
+            percentage = 0;
             db.dropDB();
             readQuizData();
             date = db.createQuestions();
