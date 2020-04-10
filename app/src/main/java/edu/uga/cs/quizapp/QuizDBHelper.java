@@ -5,11 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.strictmode.SqliteObjectLeakedViolation;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -23,6 +25,7 @@ import java.util.Random;
  */
 public class QuizDBHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "quiz.db";
+    public static final String DEBUG_TAG = "QuizLead";
     public static final int DB_VERSION = 2;
     public static QuizDBHelper helperInstance;
     public static ArrayList<String> countries = new ArrayList<String>();
@@ -240,5 +243,45 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
         db.execSQL("UPDATE quiz SET percentageCorrect = '" + finalScore + "' WHERE quizDate = '" + dbdate + "'");
 
+    }
+
+    public List<QuizLead> retrieveAllQuizLeads() {
+        ArrayList<QuizLead> quizLeads = new ArrayList<>();
+        Cursor cursor = null;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        try {
+            // Execute the select query and get the Cursor to iterate over the retrieved rows
+            cursor = db.query( QuizDBHelper.TABLE_QUIZ, allColumnsQuiz,
+                    null, null, null, null, null );
+
+            // collect all job leads into a List
+            if( cursor.getCount() > 0 ) {
+                while( cursor.moveToNext() ) {
+                    // get all attribute values of this job lead
+                    String date = cursor.getString( cursor.getColumnIndex( QuizDBHelper.QUIZ_COLUMN_DATE) );
+                    int score = cursor.getInt( cursor.getColumnIndex( QuizDBHelper.QUIZ_COLUMN_CORRECT) );
+
+
+                    // create a new JobLead object and set its state to the retrieved values
+                    QuizLead quizLead = new QuizLead(date, score);
+
+                    quizLeads.add(quizLead);
+                    Log.d( DEBUG_TAG, "Retrieved JobLead: " + quizLead );
+                }
+            }
+            Log.d( DEBUG_TAG, "Number of records from DB: " + cursor.getCount() );
+        }
+        catch( Exception e ){
+            Log.d( DEBUG_TAG, "Exception caught: " + e );
+        }
+        finally{
+            // we should close the cursor
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        // return a list of retrieved quiz leads
+        return quizLeads;
     }
 }

@@ -90,8 +90,9 @@ public class FragmentSix extends Fragment {
             @Override
             public void onClick(View v) {
                 if (button1.getText().toString().equals(correctAnswer)) {
-                    MainActivity.percentage++;
-                    Log.d("VALUE OF PERCENTAGE", " "+ MainActivity.percentage);
+                    MainActivity.answers[5] = 1;
+                } else {
+                    MainActivity.answers[5] = 0;
                 }
             }
         });
@@ -100,8 +101,9 @@ public class FragmentSix extends Fragment {
             public void onClick(View v) {
                 Log.d("CHECKED", " was checked");
                 if (button2.getText().toString().equals(correctAnswer)) {
-                    MainActivity.percentage++;
-                    Log.d("VALUE OF PERCENTAGE", " "+ MainActivity.percentage);
+                    MainActivity.answers[5] = 1;
+                } else {
+                    MainActivity.answers[5] = 0;
                 }
 
             }
@@ -111,13 +113,13 @@ public class FragmentSix extends Fragment {
             public void onClick(View v) {
                 Log.d("CHECKED", " was checked");
                 if (button3.getText().toString().equals(correctAnswer)) {
-                    MainActivity.percentage++;
-                    Log.d("VALUE OF PERCENTAGE", " "+ MainActivity.percentage);
+                    MainActivity.answers[5] = 1;
+                } else {
+                    MainActivity.answers[5] = 0;
                 }
 
             }
         });
-
 
         return view;
 

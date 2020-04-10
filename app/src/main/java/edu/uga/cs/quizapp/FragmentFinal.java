@@ -43,15 +43,15 @@ public class FragmentFinal extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //readQuizData();
 
         View view = inflater.inflate(R.layout.fragment_final, container, false);
 
         QuizDBHelper db = new QuizDBHelper(getActivity());
         db.insertResults(MainActivity.percentage, MainActivity.date);
         score = (TextView) view.findViewById(R.id.score);
-        double finalScore = MainActivity.percentage;
-        finalScore = Math.ceil((finalScore / 6)*100);
+
+        double finalScore = MainActivity.answers[0] + MainActivity.answers[1] +MainActivity.answers[2] +MainActivity.answers[3] +MainActivity.answers[4] + MainActivity.answers[5];
+                finalScore = Math.ceil((finalScore / 6)*100);
         score.setText(finalScore + " %");
 
         Intent intent = new Intent(getActivity(), MainActivity.class);

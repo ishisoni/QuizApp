@@ -28,6 +28,7 @@ public class NewQuizLeadActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private QuizData quizLeadsData = null;
 
     public static int int_items = 7;
 
@@ -114,5 +115,39 @@ public class NewQuizLeadActivity extends AppCompatActivity {
             quizData.close();
         super.onPause();
     }
+
+
+    /*private class QuizLeadDBWriterTask extends AsyncTask<QuizLead, Void, QuizLead> {
+
+        // This method will run as a background process to write into db.
+        // It will be automatically invoked by Android, when we call the execute method
+        // in the onClick listener of the Save button.
+        @Override
+        protected QuizLead doInBackground( QuizLead... quizLead ) {
+            quizLeadsData.storeQuizLead( quizLead[0] );
+            return quizLead[0];
+        }
+
+        // This method will be automatically called by Android once the writing to the database
+        // in a background process has finished.  Note that doInBackground returns a JobLead object.
+        // That object will be passed as argument to onPostExecute.
+        // onPostExecute is like the notify method in an asynchronous method call discussed in class.
+        @Override
+        protected void onPostExecute( JobLead jobLead ) {
+            super.onPostExecute( jobLead );
+
+            // Show a quick confirmation message
+            Toast.makeText( getApplicationContext(), "Job lead created for " + jobLead.getCompanyName(),
+                    Toast.LENGTH_SHORT).show();
+
+            // Clear the EditTexts for next use.
+            companyNameView.setText( "" );
+            phoneView.setText( "" );
+            urlView.setText( "" );
+            commentsView.setText( "" );
+
+            Log.d( DEBUG_TAG, "Job lead saved: " + jobLead );
+        }
+    }*/
 }
 

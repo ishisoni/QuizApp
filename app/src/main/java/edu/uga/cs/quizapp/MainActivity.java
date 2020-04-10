@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         db = new QuizDBHelper(this);
         quizButton = findViewById(R.id.button1);
+        Intent intentResults = new Intent(this, Results.class);
         Intent intent = new Intent(this, NewQuizLeadActivity.class);
         quizButton.setOnClickListener(e-> {
             percentage = 0;
@@ -45,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
         });
         resultsButton = findViewById(R.id.button2);
+        resultsButton.setOnClickListener(e-> {
+            startActivity(intentResults);
+
+        });
 
     }
 
