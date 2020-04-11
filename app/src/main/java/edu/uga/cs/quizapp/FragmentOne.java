@@ -100,7 +100,7 @@ public class FragmentOne extends Fragment {
         button2.setText(answerChoices.get(1));
         button3.setText(answerChoices.get(2));
 
-        // Check if button1 is selected and updated answers array if correct
+        // Check if button is selected and updated answers array if correct
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,7 +112,7 @@ public class FragmentOne extends Fragment {
             }
         });
         
-        // Check if button1 is selected and updated answers array if correct
+        // Check if button is selected and updated answers array if correct
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,7 +126,7 @@ public class FragmentOne extends Fragment {
             }
         });
         
-        // Check if button1 is selected and updated answers array if correct
+        // Check if button is selected and updated answers array if correct
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
