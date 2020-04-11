@@ -21,15 +21,15 @@ public class QuizData {
     private SQLiteDatabase   db;
     private SQLiteOpenHelper quizDbHelper;
     private static final String[] allColumns = {
-            QuizDBHelper.QUIZ_COLUMN_ID,
-            QuizDBHelper.QUIZ_COLUMN_DATE,
-            QuizDBHelper.QUIZ_COLUMN_Q1,
-            QuizDBHelper.QUIZ_COLUMN_Q2,
-            QuizDBHelper.QUIZ_COLUMN_Q3,
-            QuizDBHelper.QUIZ_COLUMN_Q4,
-            QuizDBHelper.QUIZ_COLUMN_Q5,
-            QuizDBHelper.QUIZ_COLUMN_Q6,
-            QuizDBHelper.QUIZ_COLUMN_CORRECT,
+            QuizDBHelper.QUIZ_COLUMN_ID1,
+            QuizDBHelper.QUIZ_COLUMN_DATE1,
+            QuizDBHelper.QUIZ_COLUMN_Q11,
+            QuizDBHelper.QUIZ_COLUMN_Q21,
+            QuizDBHelper.QUIZ_COLUMN_Q31,
+            QuizDBHelper.QUIZ_COLUMN_Q41,
+            QuizDBHelper.QUIZ_COLUMN_Q51,
+            QuizDBHelper.QUIZ_COLUMN_Q61,
+            QuizDBHelper.QUIZ_COLUMN_CORRECT1,
 
     };
 
@@ -57,44 +57,47 @@ public class QuizData {
     public List<QuizLead> retrieveAllQuizLeads() {
         ArrayList<QuizLead> quizLeads = new ArrayList<>();
         Cursor cursor = null;
+        boolean isTrue = false;
+        if (isTrue) {
 
-        try {
-            // Execute the select query and get the Cursor to iterate over the retrieved rows
-            cursor = db.query( QuizDBHelper.TABLE_QUIZ, allColumns,
-                    null, null, null, null, null );
+            try {
 
-            // collect all job leads into a List
-            if( cursor.getCount() > 0 ) {
-                while( cursor.moveToNext() ) {
-                    // get all attribute values of this job lead
-                    long id = cursor.getLong( cursor.getColumnIndex( QuizDBHelper.QUIZ_COLUMN_ID ) );
-                    String date = cursor.getString( cursor.getColumnIndex( QuizDBHelper.QUIZ_COLUMN_DATE ) );
-                    String q1 = cursor.getString( cursor.getColumnIndex( QuizDBHelper.QUIZ_COLUMN_Q1 ) );
-                    String q2 = cursor.getString( cursor.getColumnIndex( QuizDBHelper.QUIZ_COLUMN_Q2 ) );
-                    String q3 = cursor.getString( cursor.getColumnIndex( QuizDBHelper.QUIZ_COLUMN_Q3 ) );
-                    String q4 = cursor.getString( cursor.getColumnIndex( QuizDBHelper.QUIZ_COLUMN_Q4 ) );
-                    String q5 = cursor.getString( cursor.getColumnIndex( QuizDBHelper.QUIZ_COLUMN_Q5 ) );
-                    String q6 = cursor.getString( cursor.getColumnIndex( QuizDBHelper.QUIZ_COLUMN_Q6 ) );
-                    String correct = cursor.getString( cursor.getColumnIndex( QuizDBHelper.QUIZ_COLUMN_CORRECT ) );
+                // Execute the select query and get the Cursor to iterate over the retrieved rows
+                cursor = db.query(QuizDBHelper.TABLE_QUIZ1, allColumns,
+                        null, null, null, null, null);
 
-                    // create a new JobLead object and set its state to the retrieved values
-                   // QuizLead   quizLead = new QuizLead( date, q1, q2, q3, q4, q5, q6, correct );
-                    //quizLead.setId( id ); // set the id (the primary key) of this object
-                    // add it to the list
-                    //quizLeads.add( quizLead );
+                // collect all job leads into a List
+                if (cursor.getCount() > 0) {
+                    while (cursor.moveToNext()) {
+                        // get all attribute values of this job lead
+                        long id = cursor.getLong(cursor.getColumnIndex(QuizDBHelper.QUIZ_COLUMN_ID1));
+                        String date = cursor.getString(cursor.getColumnIndex(QuizDBHelper.QUIZ_COLUMN_DATE1));
+                        String q1 = cursor.getString(cursor.getColumnIndex(QuizDBHelper.QUIZ_COLUMN_Q11));
+                        String q2 = cursor.getString(cursor.getColumnIndex(QuizDBHelper.QUIZ_COLUMN_Q21));
+                        String q3 = cursor.getString(cursor.getColumnIndex(QuizDBHelper.QUIZ_COLUMN_Q31));
+                        String q4 = cursor.getString(cursor.getColumnIndex(QuizDBHelper.QUIZ_COLUMN_Q41));
+                        String q5 = cursor.getString(cursor.getColumnIndex(QuizDBHelper.QUIZ_COLUMN_Q51));
+                        String q6 = cursor.getString(cursor.getColumnIndex(QuizDBHelper.QUIZ_COLUMN_Q61));
+                        String correct = cursor.getString(cursor.getColumnIndex(QuizDBHelper.QUIZ_COLUMN_CORRECT1));
 
+                        // create a new JobLead object and set its state to the retrieved values
+                        // QuizLead   quizLead = new QuizLead( date, q1, q2, q3, q4, q5, q6, correct );
+                        //quizLead.setId( id ); // set the id (the primary key) of this object
+                        // add it to the list
+                        //quizLeads.add( quizLead );
+
+                    }
+                }
+                Log.d(DEBUG_TAG, "Number of records from DB: " + cursor.getCount());
+            } catch (Exception e) {
+                Log.d(DEBUG_TAG, "Exception caught: " + e);
+            } finally {
+                // we should close the cursor
+                if (cursor != null) {
+                    cursor.close();
                 }
             }
-            Log.d( DEBUG_TAG, "Number of records from DB: " + cursor.getCount() );
-        }
-        catch( Exception e ){
-            Log.d( DEBUG_TAG, "Exception caught: " + e );
-        }
-        finally{
-            // we should close the cursor
-            if (cursor != null) {
-                cursor.close();
-            }
+
         }
         // return a list of retrieved job leads
         return quizLeads;
@@ -103,18 +106,28 @@ public class QuizData {
     // Store a new job lead in the database.
     //make method in here to insert
     public QuizLead storeQuizLead( QuizLead quizLead ) {
-
+            boolean isTrue = false;
         // Prepare the values for all of the necessary columns in the table
         // and set their values to the variables of the JobLead argument.
         // This is how we are providing persistence to a JobLead (Java object) instance
         // by storing it as a new row in the database table representing job leads.
-        ContentValues values = new ContentValues();
-        values.put( QuizDBHelper.QUIZ_COLUMN_DATE, quizLead.getDate());
-        values.put( QuizDBHelper.QUIZ_COLUMN_CORRECT, quizLead.getCorrect() );
+        if (isTrue) {
+            ContentValues values = new ContentValues();
+            values.put(QuizDBHelper.QUIZ_COLUMN_DATE1, quizLead.getDate());
+            values.put(QuizDBHelper.QUIZ_COLUMN_Q11, quizLead.getDate());
+            values.put(QuizDBHelper.QUIZ_COLUMN_Q21, quizLead.getDate());
+            values.put(QuizDBHelper.QUIZ_COLUMN_Q31, quizLead.getDate());
+            values.put(QuizDBHelper.QUIZ_COLUMN_Q41, quizLead.getDate());
+            values.put(QuizDBHelper.QUIZ_COLUMN_Q51, quizLead.getDate());
+            values.put(QuizDBHelper.QUIZ_COLUMN_Q61, quizLead.getDate());
+            values.put(QuizDBHelper.QUIZ_COLUMN_CORRECT1, quizLead.getCorrect());
+            long id = db.insert( QuizDBHelper.TABLE_QUIZ1, null, values );
+
+        }
         // Insert the new row into the database table;
         // The id (primary key) is automatically generated by the database system
         // and returned as from the insert method call.
-        long id = db.insert( QuizDBHelper.TABLE_QUIZ, null, values );
+
 
         // store the id (the primary key) in the JobLead instance, as it is now persistent
 

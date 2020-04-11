@@ -26,10 +26,23 @@ import java.util.Random;
 public class QuizDBHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "quiz.db";
     public static final String DEBUG_TAG = "QuizLead";
-    public static final int DB_VERSION = 2;
+    public static final int DB_VERSION = 4;
     public static QuizDBHelper helperInstance;
     public static ArrayList<String> countries = new ArrayList<String>();
 
+
+
+
+    public static final String TABLE_QUIZ1   = "quiz1";
+    public static final String QUIZ_COLUMN_ID1 = "quizId1";
+    public static final String QUIZ_COLUMN_DATE1 = "quizDate1";
+    public static final String QUIZ_COLUMN_Q11 = "q11";
+    public static final String QUIZ_COLUMN_Q21 = "q21";
+    public static final String QUIZ_COLUMN_Q31 = "q31";
+    public static final String QUIZ_COLUMN_Q41 = "q41";
+    public static final String QUIZ_COLUMN_Q51 = "q51";
+    public static final String QUIZ_COLUMN_Q61 = "q61";
+    public static final String QUIZ_COLUMN_CORRECT1 = "percentageCorrect1";
 
     public static final String TABLE_QUIZ = "quiz";
     public static final String QUIZ_COLUMN_ID = "quizId";
@@ -110,10 +123,8 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-       // db.execSQL( CREATE_QUIZ);
+        db.execSQL( CREATE_QUIZ);
         db.execSQL(CREATE_COUNTRIES);
-
-
     }
 
     @Override
@@ -134,13 +145,15 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         return wasAdded;
     }
 
+    public void onCreateCountries(SQLiteDatabase db) {
+        db.execSQL(CREATE_COUNTRIES);
 
-
+    }
    public void dropDB() {
        SQLiteDatabase db = this.getWritableDatabase();
       // db.execSQL("drop table if exists " + TABLE_QUIZ);
        db.execSQL("drop table if exists " + TABLE_COUNTRIES);
-       onCreate(db);
+       onCreateCountries(db);
    }
 
     public String createQuestions() {

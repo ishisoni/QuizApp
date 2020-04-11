@@ -114,7 +114,7 @@ public class NewQuizLeadActivity extends AppCompatActivity {
     }
 
 
-    /*private class QuizLeadDBWriterTask extends AsyncTask<QuizLead, Void, QuizLead> {
+    private class QuizLeadDBWriterTask extends AsyncTask<QuizLead, Void, QuizLead> {
 
         // This method will run as a background process to write into db.
         // It will be automatically invoked by Android, when we call the execute method
@@ -133,15 +133,11 @@ public class NewQuizLeadActivity extends AppCompatActivity {
         protected void onPostExecute( QuizLead quizLead ) {
             super.onPostExecute( quizLead );
 
-            // Show a quick confirmation message
-            Toast.makeText( getApplicationContext(), "Job lead created for " + jobLead.getCompanyName(),
-                    Toast.LENGTH_SHORT).show();
-
             // Clear the EditTexts for next use.
 
 
-            Log.d( DEBUG_TAG, "Job lead saved: " + jobLead );
+            Log.d( DEBUG_TAG, "Job lead saved: " + quizLead );
         }
-    }*/
+    }
 }
 
