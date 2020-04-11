@@ -29,7 +29,7 @@ import java.util.Random;
 
 /**
 * FragmentFive class creates a Fragment for the first country question
-* using onCreateView method.
+* using onCreateView method
 */
 public class FragmentFive extends Fragment {
     // elements from layout 
