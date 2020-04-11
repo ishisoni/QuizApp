@@ -20,22 +20,35 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 
+/**
+* MainActivty class acts as a SplashScreen for the QuizApp
+*/
 public class MainActivity extends AppCompatActivity {
-
+    // Elements from layout
     Button quizButton;
     Button resultsButton;
+    
+    // Variables needed to collect and store data
     QuizDBHelper db;
     public static String date;
     public static HashMap<String, String>  hs = new HashMap<String, String>();
     public static int percentage;
     public static int[] answers = {0, 0, 0, 0, 0, 0};
 
+    /**
+    * onCreate is a method that creates the view for MainActivity.
+    * @param savedInstanceState
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        // Intializing buttons and DB helper
         db = new QuizDBHelper(this);
         quizButton = findViewById(R.id.button1);
+        
+        // If user selects quiz button, goes to NewQuizLeadActivity
         Intent intentResults = new Intent(this, Results.class);
         Intent intent = new Intent(this, NewQuizLeadActivity.class);
         quizButton.setOnClickListener(e-> {
@@ -47,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        // If user selects results button, goes to Result
         resultsButton = findViewById(R.id.button2);
         resultsButton.setOnClickListener(e-> {
             startActivity(intentResults);
@@ -54,37 +68,29 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-
-
+    
+    /**
+    * readQuizData is a method that reads the CSV file and stores the countries
+    * and their respective continents in the DB
+    */ 
     private void readQuizData() {
+        // Needed classses to access file and read file
         Resources res = getResources();
         InputStream in_continent = res.openRawResource( R.raw.country_continent );
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(in_continent, Charset.forName("UTF-8"))
         );
 
+        // Reads the file and trys to store in DB
         String line = "";
         try {
             while ((line = reader.readLine()) != null){
                 String[] tokens = line.split(",");
-                //this has been moved to QuizDBhelper!
-               // ContentValues values = new ContentValues();
-               // values.put( QuizDBHelper.COUNTRY_COLUMN, tokens[0]);
-               // values.put( QuizDBHelper.CONTINENT_COLUMN, tokens[1]);
                 db.insertCountry(tokens[0],tokens[1]);
                 hs.put(tokens[0], tokens[1]);
-
-
-                //country.add(tokens[0]);
-                //continent.add(tokens[1]);
-
             }
-
-
         }catch(IOException e){
             e.printStackTrace();
         }
-
     }
 }
