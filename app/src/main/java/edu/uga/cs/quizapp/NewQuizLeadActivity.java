@@ -1,7 +1,6 @@
 package edu.uga.cs.quizapp;
 
 import android.os.AsyncTask;
-//import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,53 +21,52 @@ import java.net.SocketOption;
 
 
 /**
- * This class is an activity to create a new job lead.
+ * NewQuizLeadActivity class handles the fragments used in QuizApp
  */
 public class NewQuizLeadActivity extends AppCompatActivity {
-
+    public static final String DEBUG_TAG = "NewQuizLeadActivity";
+    
+    // Elements from layout
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    
+    // QuizData elements intialized to null
     private QuizData quizLeadsData = null;
-
-    public static int int_items = 6;
-
-    public static final String DEBUG_TAG = "NewQuizLeadActivity";
-
-    public boolean fragSixDone;
     private QuizData quizData = null;
 
+    // Variables needed to use the Fragments
+    public static int int_items = 6;    
+
+    /**
+    * onCreate is a method that creates and sets up layout for the Fragments
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_quiz_lead);
-
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-       // setSupportActionBar(toolbar);
-
+        
+        // ViewPage elemennt found on layout and set Adapter 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-        //tabLayout = (TabLayout) findViewById(R.id.tabs);
-
         viewPager.setAdapter(new MyAdapter(getSupportFragmentManager()));
-
-       /*tabLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                tabLayout.setupWithViewPager(viewPager);
-            }
-        });
-*/
     }
-
+    
+    /**
+    * MyAdapter estends FragmentPagerAdapter which manages the six Fragments
+    * and displays correct Fragment when user swipes
+    */
     private class MyAdapter extends FragmentPagerAdapter {
-
+        /**
+        * MyAdapter constructor that intializes the FragmentManager
+        */
         MyAdapter(FragmentManager fm) {
             super(fm);
         }
 
         /**
-         * Return fragment with respect to Position .
+         * getItem is a method that returns correct Fragment with respect to Position
+         * @param position
+         * @return Fragment
          */
-
         @Override
         public Fragment getItem(int position) {
             switch (position) {
@@ -88,15 +86,21 @@ public class NewQuizLeadActivity extends AppCompatActivity {
             return null;
         }
 
+        /**
+        * getCount is a method that returns the number of items/fragments
+        * @return int_items
+        */
         @Override
         public int getCount() {
             return int_items;
         }
     }
 
+    /**
+    * onResume is a method that opens DB along with onResume android functionality 
+    */
     @Override
     protected void onResume() {
-        //Log.d(DEBUG_TAG, "NewJobLeadActivity.onResume()");
         // open the database in onResume
         if (quizData != null)
             quizData.open();
@@ -104,6 +108,9 @@ public class NewQuizLeadActivity extends AppCompatActivity {
         super.onResume();
     }
 
+    /**
+    * onPause is a method that uses android OnPause functionality and closes DB while paused
+    */
     @Override
     protected void onPause() {
         Log.d(DEBUG_TAG, "NewJobLeadActivity.onPause()");
@@ -114,6 +121,10 @@ public class NewQuizLeadActivity extends AppCompatActivity {
     }
 
 
+    /**
+    * QuizLeadDBWriterTask extends the AsyncTask with QuizLead as the parameter
+    * and conducts DB writing in the background. 
+    */
     private class QuizLeadDBWriterTask extends AsyncTask<QuizLead, Void, QuizLead> {
 
         // This method will run as a background process to write into db.
@@ -132,11 +143,8 @@ public class NewQuizLeadActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute( QuizLead quizLead ) {
             super.onPostExecute( quizLead );
-
-            // Clear the EditTexts for next use.
-
-
-            Log.d( DEBUG_TAG, "Job lead saved: " + quizLead );
+            
+            Log.d( DEBUG_TAG, "Quiz lead saved: " + quizLead );
         }
     }
 }
