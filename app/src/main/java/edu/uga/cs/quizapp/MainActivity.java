@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
 
         });
+
         resultsButton = findViewById(R.id.button2);
         resultsButton.setOnClickListener(e-> {
             startActivity(intentResults);
@@ -53,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    // Open the database
 
 
     private void readQuizData() {

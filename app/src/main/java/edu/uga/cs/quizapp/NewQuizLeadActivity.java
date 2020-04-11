@@ -30,11 +30,11 @@ public class NewQuizLeadActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private QuizData quizLeadsData = null;
 
-    public static int int_items = 7;
+    public static int int_items = 6;
 
     public static final String DEBUG_TAG = "NewQuizLeadActivity";
 
-
+    public boolean fragSixDone;
     private QuizData quizData = null;
 
     @Override
@@ -46,17 +46,17 @@ public class NewQuizLeadActivity extends AppCompatActivity {
        // setSupportActionBar(toolbar);
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        //tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         viewPager.setAdapter(new MyAdapter(getSupportFragmentManager()));
 
-        tabLayout.post(new Runnable() {
+       /*tabLayout.post(new Runnable() {
             @Override
             public void run() {
                 tabLayout.setupWithViewPager(viewPager);
             }
         });
-
+*/
     }
 
     private class MyAdapter extends FragmentPagerAdapter {
@@ -84,9 +84,6 @@ public class NewQuizLeadActivity extends AppCompatActivity {
                     return new FragmentFive();
                 case 5:
                     return new FragmentSix();
-                case 6:
-                    return new FragmentFinal(); // Results
-
             }
             return null;
         }
@@ -133,18 +130,15 @@ public class NewQuizLeadActivity extends AppCompatActivity {
         // That object will be passed as argument to onPostExecute.
         // onPostExecute is like the notify method in an asynchronous method call discussed in class.
         @Override
-        protected void onPostExecute( JobLead jobLead ) {
-            super.onPostExecute( jobLead );
+        protected void onPostExecute( QuizLead quizLead ) {
+            super.onPostExecute( quizLead );
 
             // Show a quick confirmation message
             Toast.makeText( getApplicationContext(), "Job lead created for " + jobLead.getCompanyName(),
                     Toast.LENGTH_SHORT).show();
 
             // Clear the EditTexts for next use.
-            companyNameView.setText( "" );
-            phoneView.setText( "" );
-            urlView.setText( "" );
-            commentsView.setText( "" );
+
 
             Log.d( DEBUG_TAG, "Job lead saved: " + jobLead );
         }

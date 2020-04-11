@@ -44,6 +44,8 @@ public class QuizLead {
 
     public String toString()
     {
-        return date + " " + correct;
+        double percentage = 0.0;
+        percentage = Math.ceil((correct/6)*100);
+        return "Date: " + date + "     " + "Number Correct: " + correct + "/6" + "    ";
     }
 }

@@ -1,5 +1,6 @@
 package edu.uga.cs.quizapp;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -31,6 +33,7 @@ public class FragmentSix extends Fragment {
     TextView question;
 
     RadioButton button1, button2, button3;
+    Button moveButton;
 
     RadioGroup group;
     ArrayList<String> wrongContinents = new ArrayList<String>();
@@ -40,29 +43,29 @@ public class FragmentSix extends Fragment {
     String correctAnswer = "";
 
     public FragmentSix() {
-        // Required empty public constructor
 
+        // Required empty public constructor
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //readQuizData();
 
-        View view = inflater.inflate(R.layout.fragment_one, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_six, container, false);
         question = (TextView) view.findViewById(R.id.section_label);
 
 
-        //quizQuestions
 
-
-        //quizQuestion.setCountry(country.get(randomNumber));
-        //quizQuestion.setContinent(continent.get(randomNumber));
         button1 = (RadioButton) view.findViewById(R.id.radioButton1);
         button2 = (RadioButton) view.findViewById(R.id.radioButton2);
         button3 = (RadioButton) view.findViewById(R.id.radioButton3);
-
+        moveButton = (Button) view.findViewById(R.id.button5);
+        Intent intent = new Intent(getActivity(), Final.class);
+        moveButton.setOnClickListener(e -> {
+            startActivity(intent);
+        });
         wrongContinents.add("Asia");
         wrongContinents.add("Africa");
         wrongContinents.add("North America");
@@ -89,8 +92,12 @@ public class FragmentSix extends Fragment {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("BUTTON RESPONSE", "Correct answer: " + correctAnswer + " buttonText: " + button1.getText().toString());
+                Log.d("CORRECT", "Are they the same: " + button1.getText().toString().equals(correctAnswer));
                 if (button1.getText().toString().equals(correctAnswer)) {
                     MainActivity.answers[5] = 1;
+                    Log.d("ENTER" , "Entered correct");
+                    Log.d("VALUE", " " + MainActivity.answers[5]);
                 } else {
                     MainActivity.answers[5] = 0;
                 }
@@ -99,9 +106,12 @@ public class FragmentSix extends Fragment {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("CHECKED", " was checked");
+                Log.d("BUTTON RESPONSE", "Correct answer: " + correctAnswer + " buttonText: " + button2.getText().toString());
+                Log.d("CORRECT", "Are they the same: " + button2.getText().toString().equals(correctAnswer));
                 if (button2.getText().toString().equals(correctAnswer)) {
                     MainActivity.answers[5] = 1;
+                    Log.d("ENTER" , "Entered correct");
+                    Log.d("VALUE", " " + MainActivity.answers[5]);
                 } else {
                     MainActivity.answers[5] = 0;
                 }
@@ -111,9 +121,12 @@ public class FragmentSix extends Fragment {
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("CHECKED", " was checked");
+                Log.d("BUTTON RESPONSE", "Correct answer: " + correctAnswer + " buttonText: " + button3.getText().toString());
+                Log.d("CORRECT", "Are they the same: " + button3.getText().toString().equals(correctAnswer));
                 if (button3.getText().toString().equals(correctAnswer)) {
                     MainActivity.answers[5] = 1;
+                    Log.d("ENTER" , "Entered correct");
+                    Log.d("VALUE", " " + MainActivity.answers[5]);
                 } else {
                     MainActivity.answers[5] = 0;
                 }
