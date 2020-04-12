@@ -22,7 +22,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
     // Variables to set up table for quiz data
     public static final String DB_NAME = "quiz.db";
     public static final String DEBUG_TAG = "QuizLead";
-    public static final int DB_VERSION = 4;
+    public static final int DB_VERSION = 5;
     public static QuizDBHelper helperInstance;
     public static ArrayList<String> countries = new ArrayList<String>();
     
@@ -103,7 +103,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
     /**
     * QuizDBHelper constructor that sets up DB with name and version
-    * @param context
+    * @param context - context of the app
     */
     public QuizDBHelper(Context context) {
         super( context, DB_NAME, null, DB_VERSION );
@@ -112,7 +112,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
     /**
     * getInstance is a method where the DB can access the elements 
-    * @param context
+    * @param context - context of the app
     * @return helperInstance
     */
     public static synchronized QuizDBHelper getInstance(Context context) {
@@ -125,7 +125,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
     /**
     * onCreate is a method that executes SQL query to create tables in DB
-    * @param db
+    * @param db - the database
     */
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -181,6 +181,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
     /**
     * createQuestions is a method that creates the questions for the QuizApp
     * and creates date to insert into DB
+     * @return the date of the quiz
     */
     public String createQuestions() {
         // start DB and and clear previous countries 
@@ -262,7 +263,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
     }
 
     /**
-    * retrieveAllQuizLeads is amethod that retreives all quiz leads and returns it
+    * retrieveAllQuizLeads is a method that retrieves all quiz leads and returns it
     * @return quizLeads
     */ 
     public List<QuizLead> retrieveAllQuizLeads() {

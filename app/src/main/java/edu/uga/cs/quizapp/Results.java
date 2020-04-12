@@ -12,6 +12,10 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ * Class for displaying the results of all fo the quizzes previously taken
+ */
 public class Results extends AppCompatActivity {
 
     public static final String DEBUG_TAG = "QuizLead";
@@ -20,16 +24,18 @@ public class Results extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     QuizDBHelper db;
     List<QuizLead> quizResults;
+    //set up variables
 
-    private static final String[] allColumnsQuiz = {
-            QuizDBHelper.QUIZ_COLUMN_DATE,
-            QuizDBHelper.QUIZ_COLUMN_CORRECT,
 
-    };
-
+    /**
+     *
+     * onCreate method to create results of prior quizzes
+     * @param savedInstanceState - current state of app
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //initialize db
         db = new QuizDBHelper(this);
         setContentView(R.layout.activity_results);
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
@@ -37,11 +43,14 @@ public class Results extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
        quizResults =  db.retrieveAllQuizLeads();
+       //retrieve results from the quiz
        db.retrieveAllQuizLeads();
 
         // specify an adapter (see also next example)
         mAdapter = new ResultsAdapter(quizResults);
+        //set up adapter
         recyclerView.setAdapter(mAdapter);
+        //apply adapter to recycler view
 
 
     }

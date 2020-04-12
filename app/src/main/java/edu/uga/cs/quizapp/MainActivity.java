@@ -21,7 +21,10 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 
 /**
-* MainActivty class acts as a SplashScreen for the QuizApp
+* MainActivity class acts as a SplashScreen for the QuizApp
+ *
+ * @Author Ishita Soni
+ * @Author Simin Savani
 */
 public class MainActivity extends AppCompatActivity {
     // Elements from layout
