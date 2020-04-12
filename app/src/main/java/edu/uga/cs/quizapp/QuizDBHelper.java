@@ -15,24 +15,18 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * This is a SQLiteOpenHelper class, which Android uses to create, upgrade, delete an SQLite database
+ * QuizDBHelper is a SQLiteOpenHelper class, which Android uses to create, upgrade, delete an SQLite database
  * in an app.
- *
- *
- * Only one instance of this class will exist.  To make sure, the
- * only constructor is private.
- * Access to the only instance is via the getInstance method.
  */
 public class QuizDBHelper extends SQLiteOpenHelper {
+    // Variables to set up table for quiz data
     public static final String DB_NAME = "quiz.db";
     public static final String DEBUG_TAG = "QuizLead";
     public static final int DB_VERSION = 4;
     public static QuizDBHelper helperInstance;
     public static ArrayList<String> countries = new ArrayList<String>();
-
-
-
-
+    
+    // Tag names for DB quiz-table 
     public static final String TABLE_QUIZ1   = "quiz1";
     public static final String QUIZ_COLUMN_ID1 = "quizId1";
     public static final String QUIZ_COLUMN_DATE1 = "quizDate1";
@@ -43,7 +37,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
     public static final String QUIZ_COLUMN_Q51 = "q51";
     public static final String QUIZ_COLUMN_Q61 = "q61";
     public static final String QUIZ_COLUMN_CORRECT1 = "percentageCorrect1";
-
+    // Tag names for DB quiz-table
     public static final String TABLE_QUIZ = "quiz";
     public static final String QUIZ_COLUMN_ID = "quizId";
     public static final String QUIZ_COLUMN_DATE = "quizDate";
@@ -54,12 +48,13 @@ public class QuizDBHelper extends SQLiteOpenHelper {
     public static final String QUIZ_COLUMN_Q5 = "q5";
     public static final String QUIZ_COLUMN_Q6 = "q6";
     public static final String QUIZ_COLUMN_CORRECT = "percentageCorrect";
-
+    //Tag names for DB country-table
     public static final String TABLE_COUNTRIES = "countries";
     public static final String COUNTRY_COLUMN_ID = "countryId";//primary key
     public static final String COUNTRY_COLUMN = "country";//country
     public static final String CONTINENT_COLUMN = "continent";//continent
-
+    
+    // Columns for quiz table
     private static final String[] allColumnsQuiz = {
             QuizDBHelper.QUIZ_COLUMN_ID,
             QuizDBHelper.QUIZ_COLUMN_DATE,
@@ -70,8 +65,9 @@ public class QuizDBHelper extends SQLiteOpenHelper {
             QuizDBHelper.QUIZ_COLUMN_Q5,
             QuizDBHelper.QUIZ_COLUMN_Q6,
             QuizDBHelper.QUIZ_COLUMN_CORRECT,
-
     };
+    
+    // Columns for country table
     private static final String[] allColumnsCountry = {
             QuizDBHelper.COUNTRY_COLUMN_ID,
             QuizDBHelper.COUNTRY_COLUMN,
@@ -79,13 +75,11 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
     };
 
-
+    // Create tables query 
     private static final String CREATE_TABLE =
             String.format("create table%s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT, %s TEXT)", TABLE_COUNTRIES, COUNTRY_COLUMN_ID, COUNTRY_COLUMN, CONTINENT_COLUMN);
 
-
-
-
+    // Query to create quiz table
     private static final String CREATE_QUIZ =
             "create table " + TABLE_QUIZ + " ("
                     + QUIZ_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -99,7 +93,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
                     + QUIZ_COLUMN_CORRECT + " INTEGER "
                     + ")";
 
-
+    // Query to create country table
     private static final String CREATE_COUNTRIES =
             "create table " + TABLE_COUNTRIES + " ("
                     +COUNTRY_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -107,12 +101,20 @@ public class QuizDBHelper extends SQLiteOpenHelper {
                     +CONTINENT_COLUMN + " TEXT "
                     +")";
 
-
+    /**
+    * QuizDBHelper constructor that sets up DB with name and version
+    * @param context
+    */
     public QuizDBHelper(Context context) {
         super( context, DB_NAME, null, DB_VERSION );
 
     }
 
+    /**
+    * getInstance is a method where the DB can access the elements 
+    * @param context
+    * @return helperInstance
+    */
     public static synchronized QuizDBHelper getInstance(Context context) {
         if (helperInstance == null ) {
             helperInstance = new QuizDBHelper(context.getApplicationContext());
@@ -121,12 +123,20 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         return helperInstance;
     }
 
+    /**
+    * onCreate is a method that executes SQL query to create tables in DB
+    * @param db
+    */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL( CREATE_QUIZ);
         db.execSQL(CREATE_COUNTRIES);
     }
 
+    /**
+    * onUpgrade is a method that executes SQL query to drop tables in DB 
+    * if version number changes, automatically invoked by Android if needed.
+    */ 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("drop table if exists " + TABLE_QUIZ);
@@ -134,39 +144,57 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    /**
+    * insertCountry is a method that inserts country and contient into DB
+    * @param country, continent
+    * @return wasAdded
+    */
     public long insertCountry(String country, String continent) {
         //retrieved method from QuizData
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put( QuizDBHelper.COUNTRY_COLUMN, country);
         values.put( QuizDBHelper.CONTINENT_COLUMN, continent);
-
+    
+        // If properly added, return wasAdded
         long wasAdded = db.insert(TABLE_COUNTRIES, null, values);
         return wasAdded;
     }
 
+    /**
+    * onCreateCountries is a method that creates the country table
+    */ 
     public void onCreateCountries(SQLiteDatabase db) {
         db.execSQL(CREATE_COUNTRIES);
 
     }
+    
+    /**
+    * dropDB drops country table from the DB and recreates country table
+    */
    public void dropDB() {
        SQLiteDatabase db = this.getWritableDatabase();
-      // db.execSQL("drop table if exists " + TABLE_QUIZ);
        db.execSQL("drop table if exists " + TABLE_COUNTRIES);
        onCreateCountries(db);
    }
 
+    /**
+    * createQuestions is a method that creates the questions for the QuizApp
+    * and creates date to insert into DB
+    */
     public String createQuestions() {
+        // start DB and and clear previous countries 
         countries.clear();
         SQLiteDatabase db= this.getWritableDatabase();
-
+        
+        // set up date for the QuizApp
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         String dbdate = formatter.format(date);
         System.out.println(formatter.format(date));
-
+        
+        // generate 6 random numbers to get countries from DB for the quiz
         ArrayList<Integer> numbers = new ArrayList<Integer>();
-
         Random randomGenerator = new Random();
         while (numbers.size() < 6) {
             int random = randomGenerator .nextInt(195);
@@ -175,15 +203,15 @@ public class QuizDBHelper extends SQLiteOpenHelper {
             }
         }
         Log.d("DEBUG", "NUMBER OF RANDOM COUNTRIES:" + numbers.size());
+        
+        // get these random numbers from DB by querying using cursor and DB
         Cursor cursor = null;
         try {
             // Execute the select query and get the Cursor to iterate over the retrieved rows
            cursor = db.query( QuizDBHelper.TABLE_COUNTRIES, allColumnsCountry,
                "countryId in (" + numbers.get(0)+ "," + numbers.get(1)+ "," + numbers.get(2)+ "," + numbers.get(3)+ "," + numbers.get(4)+ "," + numbers.get(5)+ ")", null, null, null, null );
-            // collect all job leads into a List
-
-            //cursor = db.query( QuizDBHelper.TABLE_COUNTRIES, allColumnsCountry,
-               //     "COUNTRY_COLUMN_ID in (" + number, null, null, null, null );
+            
+            // keep getting countries until cursor is finished
             if( cursor.getCount() > 0 ) {
                 while( cursor.moveToNext() ) {
                     // get all attribute values of this job lead
@@ -204,7 +232,8 @@ public class QuizDBHelper extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
-
+        
+        // store countries and date into DB
         ContentValues values = new ContentValues();
         //DATE TIME
         values.put( QuizDBHelper.QUIZ_COLUMN_DATE, dbdate);
@@ -216,48 +245,26 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         values.put( QuizDBHelper.QUIZ_COLUMN_Q6, countries.get(5));
         values.put( QuizDBHelper.QUIZ_COLUMN_CORRECT, 0);
 
+        // if properly added, long wasAdded will not equal 0
         long wasAdded = db.insert(TABLE_QUIZ, null, values);
 
         return dbdate;
-
-
-
     }
-
+    
+    /**
+    * insertResults is a method that stores the result from the user's quiz completion 
+    * @param finalScore, dbdate
+    */
     public void insertResults(int finalScore, String dbdate) {
+        // set up DB and execute UPDATE SQL command to store finalScore
         SQLiteDatabase db  = this.getWritableDatabase();
-
-        /*Cursor cursor = null;
-        try {
-            // Execute the select query and get the Cursor to iterate over the retrieved rows
-            cursor = db.query( QuizDBHelper.TABLE_QUIZ, allColumnsQuiz,
-                    "quizDate = " + dbdate, null, null, null, null );
-            // collect all job leads into a List
-
-            //cursor = db.query( QuizDBHelper.TABLE_COUNTRIES, allColumnsCountry,
-            //     "COUNTRY_COLUMN_ID in (" + number, null, null, null, null );
-            if( cursor.getCount() > 0 ) {
-                while( cursor.moveToNext() ) {
-                    String quizNumber = cursor.getString(cursor.getColumnIndex( QuizDBHelper.QUIZ_COLUMN_ID));
-
-                }
-            }
-            Log.d( "DEBUG", "Number of records from DB: " + cursor.getCount() );
-        }
-        catch( Exception e ){
-            Log.d( "DEBUG", "Exception caught: " + e );
-        }
-        finally{
-            // we should close the cursor
-            if (cursor != null) {
-                cursor.close();
-            }
-        }*/
-
         db.execSQL("UPDATE quiz SET percentageCorrect = '" + finalScore + "' WHERE quizDate = '" + dbdate + "'");
-
     }
 
+    /**
+    * retrieveAllQuizLeads is amethod that retreives all quiz leads and returns it
+    * @return quizLeads
+    */ 
     public List<QuizLead> retrieveAllQuizLeads() {
         ArrayList<QuizLead> quizLeads = new ArrayList<>();
         Cursor cursor = null;
@@ -268,15 +275,15 @@ public class QuizDBHelper extends SQLiteOpenHelper {
             cursor = db.query( QuizDBHelper.TABLE_QUIZ, allColumnsQuiz,
                     null, null, null, null, null );
 
-            // collect all job leads into a List
+            // collect all quiz leads into a List
             if( cursor.getCount() > 0 ) {
                 while( cursor.moveToNext() ) {
-                    // get all attribute values of this job lead
+                    // get all attribute values of this quiz lead
                     String date = cursor.getString( cursor.getColumnIndex( QuizDBHelper.QUIZ_COLUMN_DATE) );
                     int score = cursor.getInt( cursor.getColumnIndex( QuizDBHelper.QUIZ_COLUMN_CORRECT) );
 
 
-                    // create a new JobLead object and set its state to the retrieved values
+                    // create a new QUizLead object and set its state to the retrieved values
                     QuizLead quizLead = new QuizLead(date, score);
 
                     quizLeads.add(quizLead);
